@@ -51,6 +51,20 @@ function closeDatabase(db) {
   });
 }
 
+function isValidEmail(email) {
+  if (typeof email !== "string") {
+    return false;
+  }
+
+  const value = email.trim();
+  const atIndex = value.indexOf("@");
+  const lastDotIndex = value.lastIndexOf(".");
+  const hasSingleAt = atIndex > 0 && atIndex === value.lastIndexOf("@");
+  const hasDotAfterAt = lastDotIndex > atIndex + 1;
+  const hasTld = lastDotIndex < value.length - 1;
+  return hasSingleAt && hasDotAfterAt && hasTld;
+}
+
 function validateEmployeeInput(body) {
   const requiredFields = ["name", "email", "department", "role", "hireDate"];
   const missingFields = requiredFields.filter((field) => !String(body[field] || "").trim());
@@ -59,8 +73,7 @@ function validateEmployeeInput(body) {
     return { isValid: false, message: `Missing required fields: ${missingFields.join(", ")}` };
   }
 
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(body.email)) {
+  if (!isValidEmail(body.email)) {
     return { isValid: false, message: "Invalid email format" };
   }
 
@@ -245,7 +258,11 @@ async function createApp(options = {}) {
   });
 
   app.use((err, req, res, next) => {
-    console.error(err);
+    if (process.env.NODE_ENV !== "production") {
+      console.error(err);
+    } else {
+      console.error(`Unhandled server error: ${err?.name || "Error"}`);
+    }
     res.status(500).json({ error: "Internal server error" });
   });
 

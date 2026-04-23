@@ -1,4 +1,4 @@
-const { useEffect, useMemo, useState } = React;
+const { useCallback, useEffect, useMemo, useState } = React;
 
 const emptyForm = {
   name: "",
@@ -19,7 +19,7 @@ function App() {
 
   const isEditing = editingId !== null;
 
-  const fetchEmployees = async () => {
+  const fetchEmployees = useCallback(async () => {
     setLoading(true);
     setError("");
 
@@ -39,11 +39,11 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [search, departmentFilter]);
 
   useEffect(() => {
     fetchEmployees();
-  }, [search, departmentFilter]);
+  }, [fetchEmployees]);
 
   const onInputChange = (event) => {
     setFormData((current) => ({ ...current, [event.target.name]: event.target.value }));
@@ -105,7 +105,7 @@ function App() {
   };
 
   const employeeCountText = useMemo(
-    () => `${employees.length} employee${employees.length === 1 ? "" : "s"}`,
+    () => `${employees.length}`,
     [employees]
   );
 
