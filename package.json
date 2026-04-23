@@ -1,0 +1,29 @@
+{
+  "name": "employee-management-app-tanushree",
+  "version": "1.0.0",
+  "description": "An enterprise employee management system with CRUD operations",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tanushree1210/employee-management-app-tanushree.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Tanushree1210/employee-management-app-tanushree/issues"
+  },
+  "homepage": "https://github.com/Tanushree1210/employee-management-app-tanushree#readme",
+  "dependencies": {
+    "@babel/standalone": "^7.29.2",
+    "express": "^5.2.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sqlite3": "^6.0.1"
+  }
+}
